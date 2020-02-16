@@ -1,4 +1,4 @@
-# VKShub
+# vkshub
 
 This is the official repository of vkshub.ddns.net.
 The website backend is entirely made using the Python framework Django.
