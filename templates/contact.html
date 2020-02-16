@@ -1,0 +1,49 @@
+{% extends 'base_new.html' %}
+{% block title %} Contact me !{% endblock %}
+{% block content %}
+{% load static %}
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <h4 class="title">Contact Form</h4>
+            <div id="message"></div>
+            <form class="contact-form php-mail-form" role="form" method="POST" enctype="multipart/form-data">
+             {% csrf_token %}
+              <div class="form-group">
+                <input name="name" class="form-control" id="contact-name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" type="name">
+                <div class="validate"></div>
+              </div>
+              <div class="form-group">
+                <input name="email" class="form-control" id="contact-email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" type="email">
+                <div class="validate"></div>
+              </div>
+              <div class="form-group">
+                <input name="subject" class="form-control" id="contact-subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" type="text">
+                <div class="validate"></div>
+              </div>
+
+              <div class="form-group">
+                <textarea class="form-control" name="message" id="contact-message" placeholder="Your Message" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
+                <div class="validate"></div>
+              </div>
+
+              <div class="loading"></div>
+              <div class="error-message"></div>
+              <div class="sent-message">Your message has been sent. Thank you!</div>
+
+              <div class="form-send">
+                <button type="submit" class="btn btn-large btn-primary">Send Message</button>
+              </div>
+
+            </form>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <h4 class="title">Contact Details</h4>
+              <p> Don't hesitate to get in touch with me, if you have any issues/projects in mind :)</p>
+            <ul class="contact_details">
+              <li><i class="fa fa-envelope-o"></i> emile.delmas@gmail.com</li>
+              <li><i class="fa fa-github"></i> emiledelmas</li>
+              <li><i class="fa fa-twitter"></i> veksor_</li>
+            </ul>
+            <!-- contact_details -->
+          </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base_new.html' %}
+{% block title %}Short an URL{% endblock %}
+{% block content %}
+        {% load static %}
+    <div class="form-panel">
+    <h2 style="text-align: center;"> Well done, your URL has been shorten!</h2>
+<br>
+    <div class="alert alert-success" style="font-size:13px; text-align: center">This URL
+        <a href="/short/{{ documents.name }}">http://vkshub.ddns.net/short/{{ documents.name }}</a>
+        will redirect you to
+        <a href="{{ documents.url }}">{{ documents.url }}</a>
+</div>
+</div>
+{% endblock %}

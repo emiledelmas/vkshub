@@ -1,0 +1,53 @@
+{% extends 'base_new.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "main_hub/lib/bootstrap-fileupload/bootstrap-fileupload.css" %}">
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{% static "main_hub/lib/bootstrap-fileupload/bootstrap-fileupload.js" %}"></script>
+{% endblock %}
+{% block title %}Steganography{% endblock %}
+{% block content %}
+ <div class="form-panel">
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Decrypt your message from a picture</h4>
+              <form class="form-horizontal style-form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <div class="form-group" style="display:none">
+                  <label class="col-sm-2 col-sm-2 control-label">Message </label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="message" value="default" maxlength="200" required="" type="text">
+                  </div>
+                     </div>
+                     <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Secret key </label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="key" maxlength="200" required="" type="text">
+                  </div>
+                     </div>
+                       <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Picture</label>
+                  <div class="controls col-md-9">
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                      <span class="btn btn-theme02 btn-file">
+                        <span class="fileupload-new"><i class="fa fa-paperclip"></i> Select file</span>
+                      <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
+                      <input class="default" name="picture" type="file"  accept="image/x-png,image/gif,image/jpeg" required>
+                      </span>
+                      <span class="fileupload-preview" style="margin-left:5px;"></span>
+                      <a  class="close fileupload-exists" data-dismiss="fileupload" style="float: none; margin-left:5px;"></a>
+                    </div>
+                  </div>
+                </div>
+                    <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-primary" type="submit">Decrypt your message</button>
+                </div>
+                </div>
+              </form>
+              {% if message %}
+               <div class="form-group">
+               <p>► {{ message }}</p>
+               </div>
+               {% endif %}
+
+{% endblock %}

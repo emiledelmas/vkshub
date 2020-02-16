@@ -1,0 +1,152 @@
+{% extends 'base_new.html' %}
+{% block title %}Youtube Video Downloader{% endblock %}
+{% block head %}
+<style>
+.steps{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  text-align: center;
+}
+
+
+.steps li{
+  display: inline-block;
+  margin: 20px;
+  color: #ccc;
+  padding-bottom: 5px;
+}
+
+.steps li.is-active{
+  border-bottom: 1px solid #3498db;
+  color: #3498db;
+}
+</style>
+{% endblock %}
+    {% block script %}
+<script>
+function validateFormVideo() {
+  //alert("Your URL must be like this: https://www.youtube.com/watch?v=xxxxxxxxxxxx");
+  let url = document.getElementById("urlvideo").value;
+  if (url.slice(0,32) !== "https://www.youtube.com/watch?v=") {
+    alert("Your URL must be like this: https://www.youtube.com/watch?v=xxxxxxxxxxxx");
+    return false;
+  }
+}
+function validateFormMusic() {
+  //alert("Your URL must be like this: https://www.youtube.com/watch?v=xxxxxxxxxxxx");
+  let url = document.getElementById("urlmusic").value;
+  if (url.slice(0,32) !== "https://www.youtube.com/watch?v=") {
+    alert("Your URL must be like this: https://www.youtube.com/watch?v=xxxxxxxxxxxx");
+    return false;
+  }
+}
+{% comment %}
+function progressbar() {
+  let element = document.getElementById("myprogressBar");
+  let div = document.getElementById("formblock");
+  div.style.display = 'block';
+  let width = 1;
+  let identity = setInterval(scene, 120);
+  function scene() {
+    if (width >= 100) {
+      clearInterval(identity);
+    } else {
+      width++;
+      element.style.width = width + '%';
+    }
+  }
+}
+{% endcomment %}
+</script>
+{% endblock %}
+{% block content %}
+        {% load static %}
+
+    {# <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span> #}
+   {% comment %}
+        <div class="alert alert-warning" style="font-size:13px">
+         This service is temporarily unacessible
+    </div>
+    {% endcomment %}
+    <div class="col-lg-12">
+        <div class="alert alert-info" style="font-size:13px">
+         Your video will be downloaded in .mp4 for videos and .mp3 for audio (<b>wihout any ads</b> and <b>totally free</b>)
+    </div>
+   
+            <div class="form-panel">
+                {% comment %}
+     <ul class="steps">
+         <li class="is-active"><a href="/ytb/">1. Enter Youtube URL</a></li>
+        <li>2. Choose Quality & Download</li>
+      </ul>
+      {% endcomment %}
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Download into a video file</h4>
+              <form class="form-horizontal style-form" method="post" enctype="multipart/form-data" onsubmit="return validateFormVideo()" >
+                  {% csrf_token %}
+                <div class="form-group"> 
+                  <label class="col-sm-2 col-sm-2 control-label">Youtube URL</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" id="urlvideo" name="urlvideo" maxlength="200" required="" type="text">
+                      <span class="help-block">Only in the form <b>https://www.youtube.com/watch?v=xxxxxxxxxxxx</b></span>
+                  </div>
+
+                </div>
+                    <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-primary" type="submit" download>Download in .mp4</button>
+                  </div>
+                    </div>
+                    </div>
+                  
+                  <div class="form-group" id="formblock" style="display:none">
+                        <div class="col-lg-offset-2 col-lg-10">
+                      <div class="progress progress-striped active">
+                <div class="progress-bar" role="progressbar" id="myprogressBar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" >
+                  <span class="sr-only">45% Complete</span>
+                </div>
+              </div>
+                </div>
+
+                </div>
+              </form>
+            </div>
+            </div>
+        <br><br>
+        {% comment %}
+    <div class="form-panel">
+                
+     <ul class="steps">
+         <li class="is-active"><a href="/ytb/">1. Enter Youtube URL</a></li>
+        <li>2. Choose Quality & Download</li>
+      </ul>
+      
+
+      
+      
+
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Download into an audio file</h4>
+              <form class="form-horizontal style-form" method="post" enctype="multipart/form-data" onsubmit="return validateFormMusic()" >
+                  {% csrf_token %}
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Youtube URL</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" id="urlmusic" name="urlmusic" maxlength="200" required="" type="text">
+                      <span class="help-block">Only in form <b>https://www.youtube.com/watch?v=xxxxxxxxxxxx</b></span>
+                  </div>
+
+                </div>
+                    <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-primary" type="submit">Download in .mp3</button>
+                  </div>
+                    </div>
+              </form>
+    {% endcomment %}
+    
+    
+    </div>
+    </div>
+
+{% endblock %}

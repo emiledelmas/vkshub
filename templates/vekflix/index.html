@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+   <head>
+       {% load static %}
+        {% load custom_tags %}
+      <script src="{% static "vekflix/scripts/index.js" %}"></script>
+      <meta charset="utf-8">
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Vekflix</title>
+      <link rel="apple-touch-icon" href="{% static "vekflix/apple-touch-icon.png" %}">
+      <link rel="stylesheet" href="{% static "vekflix/styles/main.css" %}">
+      <link rel="stylesheet" href="{% static "vekflix/styles/style.css" %}">
+   </head>
+   <body>
+      <nav class="navbar navbar-default">
+         <div class="container-fluid">
+            <div class="navbar-header"><a class="navbar-brand" href="">Vekflix</a></div>
+            <form class="navbar-form navbar-right">
+               <div class="inner-addon left-addon"><i class="glyphicon glyphicon-search"></i> <input type="text" class="form-control"></div>
+            </form>
+         </div>
+      </nav>
+      <header style="background-image: url({{ films.0.lien }}{% truncatebegin films.0.mignature.url 14 %});height: 70vh;-o-object-fit: cover;object-fit: cover;max-height: 300px">
+         <div class="container hero-image">
+            <div class="text-box">
+               <b>{{ films.0.title }}</b><br>
+               <p>{{ films.0.description }} <br>{{ films.0.simple_description }}</p>
+               <button class="btn btn-md btn-full" onclick="window.location.href ='{{ films.0.lien }}{% truncatebegin films.0.film.url 14 %}'"><i class="glyphicon glyphicon-triangle-right"></i> Lecture</button> <button onclick="window.location.href ='/vekflix/{{ films.0.lien }}'" class="btn btn-md btn-ghost"><i class="glyphicon glyphicon-plus"></i> Plus d'infos</button>
+            </div>
+         </div>
+      </header>
+      {% for categorie in categories %}
+      <div class="contain">
+<div class="slider">
+      <h3>{{ categorie|capfirst }}s</h3>
+      <span onmouseover="scrollEsquerda()" onmouseout="clearScroll()" class="handle handlePrev active">
+        <i class="fa fa-caret-left" aria-hidden="true"></i>
+      </span>
+
+      <div id="scroller" class="row">
+        <div class="row__inner">
+{% for film in films %}
+    {% if film.categorie == categorie  %}
+         <div class="gui-card">
+         <a href="{{ film.lien }}" >
+            <div class="gui-card__media">
+              <img class="gui-card__img" src="{{ films.0.lien }}{% truncatebegin film.mignature.url 14 %}" alt="" />
+            </div>
+            <div class="gui-card__details" style="color: white">
+              <div class="gui-card__title" style="color: white">
+                {{ film.title|capfirst }}
+              </div>
+            </div>
+         </a>
+          </div>
+
+    {% endif %}
+{% endfor %}
+
+        </div>
+
+      </div>
+      <span onmouseover="scrollDireita()" onmouseout="clearScroll()"  class="handle handleNext active">
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+      </span>
+    </div>
+
+</div>
+{% endfor %}
+      <footer>
+         <div class="row">
+            <div class="col-sm-12 text-center">Copyright &copy; 2019 Veksor. All rights reserved (or not)</div>
+         </div>
+      </footer>
+      <script src="{% static "vekflix/scripts/vendor.js" %}"></script>
+      <script src="{% static "vekflix/scripts/plugins.js" %}"></script>
+      <script src="{% static "vekflix/scripts/main.js" %}"></script>
+   </body>
+</html>
+

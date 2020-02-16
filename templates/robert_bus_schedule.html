@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+      {% load static %}
+    <title>Robert Bus</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link rel="stylesheet" href="{% static "robert_bus/skel.min.css" %}" />
+      <link rel="stylesheet" href="{% static "robert_bus/style1.css" %}" />
+      <link rel="stylesheet" href="{% static "robert_bus/style-wide.css" %}" />
+    {# <script src="app.js"></script> #}
+    <script src="{% static "robert_bus/jquery.min.js" %}"></script>
+    <script src="{% static "robert_bus/jquery.dropotron.min.js" %}"></script>
+    <script src="{% static "robert_bus/skel.min.js" %}"></script>
+    {# <script src="{% static 'main_hub/init.js'%}"></script> #}
+  </head>
+  <body style="text-align:center;color:white; min-width: 0px;">
+    <div class="wrapper style1">
+      <h1 style="font-size:350%;text-align: center">Robert Bus</h1><br>
+      <div id="extra">
+        <div>
+          <br>
+                <h1>Arrêt : {{ nameA }}</h1>
+   
+          <p>Vers : GARE D'ERMONT-EAUBONNE</p>
+          <p style='font-size:200%'>{{ timeA }} min & {{ timenexta }} min</p>
+  
+          <h1>Arrêt : {{ nameR }}</h1>
+  
+          <p>Vers : GARE D'ENGHIEN-LES-BAINS</p>
+          <p style='font-size:200%' >{{ timeR }} min & {{ timenextr }} min</p>
+          <input type=button onclick="javascript:location.reload(true)" value="REFRESH">
+            </form>
+        </div>
+      </div>
+    </div>
+
+  
+   {% comment %}
+   <script>
+     function callSave() {
+       let stop1 = document.getElementById("stop1").value;
+       let stop2 = document.getElementById("stop2").value;
+       save(stop1); save(stop2);
+     }
+     function display() {
+       let stop1 = document.getElementById("stop1").value;
+       let stop2 = document.getElementById("stop2").value;
+       go(stop1,"GARE D'ERMONT-EAUBONNE (Ermont)");
+       go(stop2,"GARE D'ENGHIEN-LES-BAINS (Enghien-les-Bains)");
+     }
+     function refresh() {
+       let stop1 = document.getElementById("stop1").value;
+       let stop2 = document.getElementById("stop2").value;
+       goBackOnline(stop1,"GARE D'ERMONT-EAUBONNE (Ermont)");
+       goBackOnline(stop2,"GARE D'ENGHIEN-LES-BAINS (Enghien-les-Bains)");
+     }
+     function callAccurate() {
+       let stop1 = document.getElementById("stop1").value; // ermont
+       switch(stop1) {
+         case 'stop_area:0:SA:8727602':
+           stop1 = 'stopPoint:60:379';
+           break;
+         case 'stop_area:0:SA:8727603':
+           stop1 = 'stopPoint:60:581';
+           break;
+         case 'stop_area:0:SA:60:598':
+           stop1 = 'stopPoint:60:598';
+           break;
+         case 'stop_area:0:SA:60:575':
+           stop1 = 'stopPoint:60:575';
+           break;
+         case 'stop_area:0:SA:60:634':
+           stop1 = 'stopPoint:60:634';
+           break;
+         case 'stop_area:0:SA:60:342':
+           stop1 = 'stopPoint:60:342';
+           break;
+         case 'stop_area:0:SA:60:334':
+           stop1 = 'stopPoint:60:334';
+           break;
+         case 'stop_area:0:SA:60:346':
+           stop1 = 'stopPoint:60:346';
+           break;
+         case 'stop_area:0:SA:60:336':
+           stop1 = 'stopPoint:60:336';
+           break;
+         case 'stop_area:0:SA:60:338':
+           stop1 = 'stopPoint:60:338';
+           break;
+         case 'stop_area:0:SA:60:344':
+           stop1 = 'stopPoint:60:344';
+           break;
+         case 'stop_area:0:SA:60:340':
+           stop1 = 'stopPoint:60:340';
+           break;
+         case 'stop_area:0:SA:8727605':
+           stop1 = 'stopPoint:60:1032';
+           break;
+       }
+       let stop2 = document.getElementById("stop2").value; // enghien
+       switch(stop2) {
+         case 'stop_area:0:SA:8727602':
+           stop2 = 'stopPoint:60:1030';
+           break;
+         case 'stop_area:0:SA:8727603':
+           stop2 = 'stopPoint:60:582';
+           break;
+         case 'stop_area:0:SA:60:598':
+           stop2 = 'stopPoint:60:599';
+           break;
+         case 'stop_area:0:SA:60:575':
+           stop2 = 'stopPoint:60:576';
+           break;
+         case 'stop_area:0:SA:60:634':
+           stop2 = 'stopPoint:60:635';
+           break;
+         case 'stop_area:0:SA:60:342':
+           stop2 = 'stopPoint:60:343';
+           break;
+         case 'stop_area:0:SA:60:334':
+           stop2 = 'stopPoint:60:335';
+           break;
+         case 'stop_area:0:SA:60:346':
+           stop2 = 'stopPoint:60:347';
+           break;
+         case 'stop_area:0:SA:60:336':
+           stop2 = 'stopPoint:60:337';
+           break;
+         case 'stop_area:0:SA:60:338':
+           stop2 = 'stopPoint:60:339';
+           break;
+         case 'stop_area:0:SA:60:344':
+           stop2 = 'stopPoint:60:345';
+           break;
+         case 'stop_area:0:SA:60:340':
+           stop2 = 'stopPoint:60:341';
+           break;
+         case 'stop_area:0:SA:8727605':
+           stop2 = 'stopPoint:60:408';
+           break;
+       }
+       
+       accurate(stop1,"GARE D'ERMONT-EAUBONNE (Ermont)");
+       accurate(stop2,"GARE D'ENGHIEN-LES-BAINS (Enghien-les-Bains)");
+     }
+   </script>
+ {% endcomment %}
+  </body>
+</html>

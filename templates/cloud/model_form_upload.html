@@ -1,0 +1,46 @@
+{% extends 'cloud/base_cloud.html' %}
+
+{% block content %}
+        {% load static %}
+
+	<div id="colorlib-page">
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="colorlib-navbar-brand">
+							<a class="colorlib-logo" href="/"><span class="pe-7s-gleam bounce-in no-display animated bounceIn appear" style="color:#fff; font-size: x-large"></span>Veksor Hub</a>
+						</div>
+						<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+					</div>
+				</div>
+			</div>
+		</header>
+		<aside id="colorlib-hero">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url({% static "main_hub/images/img_bg_3.jpg" %});">{
+			   		<div class="overlay"></div>
+			   		<div class="container">
+			   			<div class="row">
+				   			<div class="col-md-8 col-sm-12 col-xs-12 col-md-offset-2 text-center slider-text">
+				   				<div class="slider-text-inner">
+				   					<h2>Open Media Cloud</h2>
+				   					<h1>Upload un fichier</h1>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			  	</ul>
+		  	</div>
+		</aside>
+    </div>
+ <form method="post" enctype="multipart/form-data">
+ {% csrf_token %}
+        {{ form.as_p }}
+
+    <button type="submit">Upload</button>
+  </form>
+
+{% endblock %}

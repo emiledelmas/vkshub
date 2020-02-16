@@ -1,0 +1,404 @@
+{% extends 'base_new.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block head %}
+    <link href="{% static "main_hub/lib/gritter/css/jquery.gritter.css" %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "main_hub/css/zabuto_calendar.css" %}">
+
+{% endblock %}
+{% block body %} onload="typeWriter();" {% endblock %}
+{% block head2 %} <script src="{% static "main_hub/lib/chart-master/Chart.js" %}"></script>
+{% endblock %}
+{% block script %}
+<script src="{% static "main_hub/lib/sparkline-chart.js" %}"></script>
+    <script src="{% static "main_hub/lib/zabuto_calendar.js" %}"></script>
+    <script>
+
+    $(document).ready(function() {
+      $("#date-popover").popover({
+        html: true,
+        trigger: "manual"
+      });
+      $("#date-popover").hide();
+      $("#date-popover").click(function(e) {
+        $(this).hide();
+      });
+
+      $("#my-calendar").zabuto_calendar({
+        action: function() {
+          return myDateFunction(this.id, false);
+        },
+        action_nav: function() {
+          return myNavFunction(this.id);
+        },
+        ajax: {
+          url: "show_data.php?action=1",
+          modal: true
+        },
+        legend: [{
+            type: "text",
+            label: "Special event",
+            badge: "00"
+          },
+          {
+            type: "block",
+            label: "Regular event",
+          }
+        ]
+      });
+    });
+
+    function myNavFunction(id) {
+      $("#date-popover").hide();
+      var nav = $("#" + id).data("navigation");
+      var to = $("#" + id).data("to");
+      console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+    }
+    </script>
+{% endblock %}
+{% block content %}
+    {% load custom_tags %}
+          <div class="col-lg-9 main-chart">
+          <div class="form-panel">
+          <div class="detailed">
+               <h4>Published Projects Timeline</h4>
+                <br>
+            <div class="custom-bar-chart">
+              <ul class="y-axis">
+                <li><span>10</span></li>
+                <li><span>8</span></li>
+                <li><span>6</span></li>
+                <li><span>4</span></li>
+                <li><span>2</span></li>
+                <li><span>0</span></li>
+              </ul>
+            {% for month in months %}
+              <div class="bar">
+
+                <div class="title">
+                {% if month == 1 %}
+                    JAN
+                 {% elif month == 2 %}
+                    FEB
+                 {% elif month == 3 %}
+                    MAR
+                {% elif month == 4 %}
+                    APR
+                  {% elif month == 5 %}
+                    MAY
+                 {% elif month == 6 %}
+                    JUN
+                 {% elif month == 7 %}
+                    JUL
+                 {% elif month == 8 %}
+                    AUG
+                 {% elif month == 9 %}
+                    SEP
+                 {% elif month == 10 %}
+                    OCT
+                 {% elif month == 11 %}
+                    NOV
+                  {% elif month == 12 %}
+                    DEC
+                {% endif %}
+                </div>
+                <div class="value tooltips" id ="{{ month }}" data-original-title="8.500" data-toggle="tooltip" data-placement="top">{% graph_main projects_months month %}%</div>
+
+              </div>
+            {% endfor %}
+            </div>
+            <!--custom chart end-->
+            <div class="row mt">
+                <h4>Server Stats</h4>
+              <!-- SERVER STATUS PANELS -->
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="grey-panel pn donut-chart">
+                  <div class="grey-header">
+
+                    <h5>CPU USAGE</h5>
+                  </div>
+                  <canvas id="serverstatus01" height="120" width="120"></canvas>
+                  <script>
+                    var doughnutData = [{
+                        value: {{ cpu }},
+                        color: "#FF6B6B"
+                      },
+                      {
+                        value: {% percent cpu %},
+                        color: "#fdfdfd"
+                      }
+                    ];
+                    var myDoughnut = new Chart(document.getElementById("serverstatus01").getContext("2d")).Doughnut(doughnutData);
+                  </script>
+                  <div class="row">
+                    <div class="col-sm-6 col-xs-6 goleft">
+                      <p>Usage<br/>Increase:</p>
+                    </div>
+                    <div class="col-sm-6 col-xs-6">
+                      <h2>{{ cpu }}%</h2>
+                    </div>
+                  </div>
+                </div>
+                <!-- /grey-panel -->
+              </div>
+              <!-- /col-md-4-->
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="darkblue-panel pn">
+                  <div class="darkblue-header">
+                    <h5>DISK USAGE</h5>
+                  </div>
+                  <canvas id="serverstatus02" height="120" width="120"></canvas>
+                  <script>
+                    var doughnutData = [{
+                        value: {{ disk }},
+                        color: "#1c9ca7"
+                      },
+                      {
+                        value: {% percent disk %},
+                        color: "#f68275"
+                      }
+                    ];
+                    var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData);
+                  </script>
+                  <p></p>
+                  <footer>
+                    <div class="pull-right">
+                      <h5>{{ disk }}% Used</h5>
+                    </div>
+                  </footer>
+                </div>
+                <!--  /darkblue panel -->
+              </div>
+              <!-- /col-md-4 -->
+              <div class="col-md-4 col-sm-4 mb">
+                <!-- REVENUE PANEL -->
+                <div class="green-panel pn">
+                  <div class="green-header">
+                    <h5>CPU SPEED</h5>
+                  </div>
+                  <p class="mt" style="font-size: 50px"><b>{{ cpu_freq }}</b><br/> Hz</p>
+                </div>
+              </div>
+              <!-- /col-md-4 -->
+            </div>
+              <div class="row">
+                  <h4>Stats</h4>
+							<div class="col-md-4 text-center">
+                                <h1><i class="fa fa-coffee"></i></h1>
+								<h3>{{ coffees }}</h3>
+								<span class="colorlib-counter-label">Coffees</span>
+							</div>
+							<div class="col-md-4 text-center">
+                                <h1><i class="fa fa-file"></i></h1>
+								<h3>{{ count }}</h3>
+								<span class="colorlib-counter-label">Published projects</span>
+							</div>
+							<div class="col-md-4 text-center">
+                                <h1><i class="fa fa-trophy"></i></h1>
+							<h3>4202</h3>
+								<span class="colorlib-counter-label">Visitors per month (Website Docx Generator)</span></div>
+						</div>
+
+
+
+                        <div class="row centered mt mb">
+                        </div>
+                        <h4>My abilities</h4>
+                        <div class="row centered mt mb">
+                          <div class="col-sm-4">
+                            <h1><i class="fa fa-pencil"></i></h1>
+                            <h3>Web Design</h3>
+                            <h6>Creates web page and UI with responsive design</h6>
+                          </div>
+                          <div class="col-sm-4">
+                            <h1><i class="fa fa-diamond"></i></h1>
+                            <h3>Web Development</h3>
+                            <h6>Codes and deploy the back of a website (in PHP or Python)</h6>
+                          </div>
+                          <div class="col-sm-4">
+                            <h1><i class="fa fa-download"></i></h1>
+                            <h3>Files Generator</h3>
+                            <h6>Generate file with custom user data inside it such as .docx file, .pdf, and so on</h6>
+                          </div>
+                        </div>
+                    <div class="row centered mt mb">
+                          <div class="col-sm-4">
+                            <h1><i class="fa fa-database"></i></h1>
+                            <h3>Server Maintenance</h3>
+                            <h6>Deployment and mastering of a database</h6>
+                          </div>
+                          <div class="col-sm-4">
+                            <h1><i class="fa fa-photo"></i></h1>
+                            <h3>Logo Design</h3>
+                            <h6>Creation of original logo, graphic identity of a project</h6>
+                          </div>
+                          <div class="col-sm-4">
+                            <h1><i class="fa fa-git"></i></h1>
+                            <h3>Git Commit & Documentation</h3>
+                            <h6>Project push and commit into Github with documentation</h6>
+                          </div>
+                        </div>
+          </div>
+              <!-- /panel-heading -->
+              <div class="panel-body">
+                      <!-- /col-md-6 -->
+                    <!-- /OVERVIEW -->
+                  </div>
+          </div>
+                  <!-- /tab-pane -->
+                  <!-- /tab-pane -->
+                  <!-- /tab-pane -->
+                <!-- /tab-content -->
+            <!-- /col-lg-12 -->
+            <!-- /row -->
+          <div class="col-lg-12 main-chart">
+            <div class="row">
+              <!-- TWITTER PANEL -->
+              <div class="col-md-4 mb">
+              <a href="https://twitter.com/veksor_" style="color:white;">
+                <div class="twitter-panel pn">
+                
+                  <i class="fa fa-twitter fa-4x"></i>
+                  <p>Follow me on Twitter !</p>
+                  <p class="user">@veksor_</p>
+                </div>
+              </div>
+              </a>
+              <!-- /col-md-4 -->
+              <div class="col-md-4 mb">
+                <!-- WHITE PANEL - TOP USER -->
+                <div class="white-panel pn">
+                  <div class="white-header">
+                    <h5>TOP USER</h5>
+                  </div>
+                  <p><img src="{% static "main_hub/img/profile.jpg" %}" class="img-circle" width="50"></p>
+                  <p><b>Emile Delmas (aka Veksor)</b></p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <p class="small mt">MEMBER SINCE</p>
+                      <p>The beginning</p>
+                    </div>
+                    <div class="col-md-6">
+                      <p class="small mt">TIME SPEND</p>
+                      <p>TOO MUCH</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /col-md-4 -->
+              <a href="https://github.com/emiledelmas">
+              <div class="col-md-4 mb">
+                <!-- INSTAGRAM PANEL -->
+                <div class="instagram-panel pn">
+                  <i class="fa fa-github fa-4x"></i>
+                  <p>emiledelmas
+                  </p>
+                </div>
+              </div>
+              </a>
+              <!-- /col-md-4 -->
+            </div>
+          </div>
+          </div>
+            <!-- /row -->
+          <!-- /col-lg-9 END SECTION MIDDLE -->
+          <!-- **********************************************************************************************************************************************************
+              RIGHT SIDEBAR CONTENT
+              *********************************************************************************************************************************************************** -->
+          <div class="col-lg-3 ds" style="margin-top: 30px;">
+            <!--COMPLETED ACTIONS DONUTS CHART-->
+            <div class="donut-main">
+              <h4>DAYS BEFORE HOLIDAYS</h4>
+              <canvas id="newchart" height="130" width="130"></canvas>
+              <script>
+                var doughnutData = [{
+                    value: {% if is_holiday == True %}
+                        100
+                        {% else %}
+                        {% percent daysbeforeholiday %}
+                        {% endif %}
+                    ,
+                    color: "#4ECDC4"
+                  },
+                  {
+                    value: {% if is_holiday == True %}
+                          0
+                        {% else %}
+                        {% percent2 daysbeforeholiday %}
+                        {% endif %}
+                    ,
+                    color: "#fdfdfd"
+                  }
+                ];
+                var myDoughnut = new Chart(document.getElementById("newchart").getContext("2d")).Doughnut(doughnutData);
+              </script>
+            </div>
+            <!--NEW EARNING STATS -->
+            <div class="panel terques-chart">
+              <div class="panel-body">
+                <div class="chart">
+                  <div class="centered">
+                      {% if is_holiday == True %}
+                          <span>It's the Holidays!</span>
+                        {% else %}
+                          <span>Holidays are in </span>
+                    <strong>{{ daysbeforeholiday }}</strong>
+                          <span> days</span>
+
+                        {% endif %}
+                  </div>
+                  <br>
+                  <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,564,455]"></div>
+                </div>
+              </div>
+            </div>
+            <!--new earning end-->
+            <!-- RECENT ACTIVITIES SECTION -->
+            <h4 class="centered mt">PUBLISHED PROJECTS</h4>
+            <!-- First Activity -->
+          {% for project in projects %}
+          {% if forloop.counter0 < 5 %}
+            <div class="desc">
+              <div class="thumb">
+                <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+              </div>
+              <div class="details">
+                <p>
+                  <muted>{{ project.created }}</muted>
+                  <br/>
+                  <a href="projects">{{ project.title }}</a> was published<br/>
+                </p>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+            <!-- USERS ONLINE SECTION -->
+            <h4 class="centered mt">TEAM MEMBERS</h4>
+            <!-- First Member -->
+            <div class="desc">
+              <div class="thumb">
+                <img class="img-circle" src="{% static "main_hub/img/profile.jpg" %}" width="35px" height="35px" align="">
+              </div>
+              <div class="details">
+                <p>
+                  <a href="contact/">Veksor (Admin)</a><br/>
+                  <muted>Available</muted>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- /col-lg-3 -->
+    <script>
+      let i = 0;
+let txt = ' Welcome on the Veksor Hub';
+let speed = 50;
+
+function typeWriter() {
+  if (i < txt.length) {
+    document.getElementById("title").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+  </script>
+        {% endblock %}

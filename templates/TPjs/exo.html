@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head>
+{% load static%}
+    <script src="{% static 'main_hub/p5.js'%}"></script>
+    <script src="{% static 'main_hub/p5.dom.min.js'%}"></script>
+    <script src="{% static 'main_hub/p5.sound.min.js'%}"></script>
+    <script src="https://unpkg.com/ml5@0.4.2/dist/ml5.min.js"></script>
+    <meta charset="utf-8">
+
+  </head>
+  <body>
+  
+	<h1>{{ number }}</h1>
+    <script src="/static/main_hub/Scripts/{{number}}.js"></script>
+    {% if number == "2.8"%}
+    <p>Pour afficher les coordonnées du cercle --> ouvrir la console (F12)</p>
+    {% elif number == "5.1_IA_EDITION"%}
+    <p>Fonctionnement :<p>
+    <ul>
+    <li>Begin by typing on 'R','G','B','Y' on your keyboard to choose the color of the circles </li>
+    <li>Put then circle on the Canvas by clicking on it (put circles which have the same color in the same area)</li>
+     <li>Then you can type again on 'R','G','B','Y' to change the color of the next circle you will draw </li>
+     <li>Then you put again circle on the Canvas</li>
+     <li>And so on ... (The more circles you put, the more accurate ml5 will be)</li>
+     <li>When you have enough data type "t" on your keyboard to begin the training of the Neural Netword </li>
+     <li> When it's done, you can click on the Canvas and it will guess the color of the circle</li>
+    </ul>
+     {% endif %}
+</body></html>

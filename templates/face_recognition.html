@@ -1,0 +1,70 @@
+{% extends 'base_new.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "main_hub/lib/bootstrap-fileupload/bootstrap-fileupload.css" %}">
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.min.js"></script>   
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{% static "main_hub/lib/bootstrap-fileupload/bootstrap-fileupload.js" %}"></script>
+{% endblock %}
+{% block title %}Face Recognition{% endblock %}
+{% block content %}
+ <div class="form-panel">
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Find faces in your photos</h4>
+              <form class="form-horizontal style-form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                      <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Picture</label>
+                  <div class="controls col-md-9">
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                      <span class="btn btn-theme02 btn-file">
+                        <span class="fileupload-new"><i class="fa fa-paperclip"></i> Select file</span>
+                      <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
+                      <input class="default" name="picture" type="file"  accept="image/x-png,image/gif,image/jpeg" required>
+                      </span>
+                      <span class="fileupload-preview" style="margin-left:5px;"></span>
+                      <a  class="close fileupload-exists" data-dismiss="fileupload" style="float: none; margin-left:5px;"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Outline Color</label>
+                  <div class="col-sm-10">
+                   <div id="color-picker-container"></div>
+                   <output id="color_hex_display"></output>
+
+
+                    <!--input type="color" name="color"  value="#00ff00"-->
+                  </div>
+                     </div>
+                      <div style="display:none">
+                      <input type="text" id="color" name="color" value="#00ff00">
+                      </div>
+                    <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-primary" type="submit">Find faces</button>
+                </div>
+                </div>
+              </form>
+             
+              <script>
+            var colorPicker = new iro.ColorPicker("#color-picker-container", {
+            // Set the size of the color picker
+            width: 200,
+            // Set the initial color to pure red
+            color: "#0f0"
+          });
+          function onColorChange(color, changes) {
+              var hex = colorPicker.color.hexString;
+              document.getElementById("color").value = hex;
+              document.getElementById("color_hex_display").value = hex;
+          }
+          colorPicker.on('color:change', onColorChange);
+              </script>
+              {% if picture %}
+               <div class="form-group">
+               <img style="max-width:25%" src="/media/face_AI/results/{{picture}}">
+               </div>
+               {% endif %}
+
+{% endblock %}

@@ -1,0 +1,642 @@
+{% extends 'base_new.html' %}
+{% load qr_code %}
+
+{% block title %}
+Série d'exercices de Mathématiques (type bac)
+{% comment %}
+{% if hour != 0 %}
+Série de {{ hour }} h {% if minutes != 0 %}{{ minutes }}{% endif %}
+{% else %}
+Série de {{ minutes }} min
+{% endif %}
+{% endcomment %}
+{% endblock %}
+{% block head %}
+ {% load custom_tags %}
+<style>
+:root {
+	--page-fold-bg:#d7d7d7;
+	--project-folded:#ECF0F1;
+	--folded-header:#BDC3C7;
+	--container-label:#ECF0F1;
+	--button-bg:#3498DB;
+	--button-hover:#2980B9;
+}
+[data-theme="dark"] {
+		--page-fold-bg:#0c0d0d;
+		--project-folded:rgb(45, 56, 59);
+		--folded-header:rgb(37, 39, 41);
+		--container-label:rgb(21, 27, 29);
+		--button-bg:rgb(32, 89, 128);
+		--button-hover:rgb(37, 91, 126);
+}
+body{
+	user-select:none;
+}
+.page {
+	background-color: white;
+	overflow: hidden;
+	padding: 0 1em;
+	margin-top: 1em;
+	word-wrap: break-word;
+}
+
+.cases_logo_container_page {
+	padding: 0;
+	background-color: initial;
+	margin-top: 0.5em;
+	overflow: hidden;
+}
+
+.page h1 {
+	margin-bottom: 0;
+}
+
+.page h1 a {
+	color: inherit;
+    text-decoration: none;
+}
+
+.page:hover h1 a {
+    text-decoration: underline;
+}
+
+/* Form */
+
+.button
+{
+	display:inline-block;
+	padding:0.5em;
+	background-color: var(--button-bg);
+	color: white;
+	text-decoration:none;
+	transition:all 200ms ease-in-out, opacity 500ms ease-in-out;
+	font-weight:bold;
+	border: 0;
+}
+
+.button:hover, .button.active
+{
+	background-color: var(--button-hover);
+	text-decoration: underline;
+	color:#fff;
+}
+
+/* Accueil */
+.case_topright ul{
+	list-style: none;
+	padding: 0;
+}
+
+.skill_logo { display: inline-block; }
+
+.skill_logo svg{
+	width: 1.5em;
+	height: auto;
+	max-height: 1.5em;
+}
+
+.skill_name {
+	display: inline-block;
+	width: 5.5em;
+	padding-left: 0.6em;
+}
+
+.skill_level
+{
+	display: inline-block;
+	color: #bdc3c7;
+}
+
+.skill_level span
+{
+	display: inline-block;
+	width: 0.9em;
+	height: 0.9em;
+	background-color: #bdc3c7;
+	margin-right: -0.1em;
+}
+
+.skill_level span:first-of-type
+{
+	border-top-left-radius: 50%;
+	border-bottom-left-radius: 50%;
+}
+
+.skill_level span:last-of-type
+{
+	border-top-right-radius: 50%;
+	border-bottom-right-radius: 50%;
+}
+
+.skill_level span.active
+{
+	background-color: #3498db;
+}
+
+.case_bottomleft ul{
+	text-align: left;
+	list-style: none;
+	padding: 0;
+	overflow: visible;
+	white-space: nowrap;
+}
+
+.case_bottomleft .date{
+	width: 3em;
+	display: inline-block;
+	text-align: center;
+}
+
+.case_bottomleft .name { display: inline-block; }
+
+.case_bottomleft .label {
+	display: inline-block;
+	font-size: 1em;
+	line-height: 1em;
+	vertical-align: text-top;
+	font-style: italic;
+}
+
+.case_bottomleft .date{
+	width: 3em;
+	display: inline-block;
+	text-align: right;
+}
+
+.case_bottomleft .chronological_line{
+	margin: 0 0.5em;
+	display: inline-block;
+	border-left: 0.2em solid #bdc3c7;
+	width: 0.5em;
+    height: 1.9em;
+    vertical-align: top;
+	position: relative;
+    top: -0.3em;
+}
+
+.case_bottomleft .chronological_line_point::before{
+	content: "";
+	display: inline-block;
+	width: .7em;
+	height: .7em;
+	background-color: #bdc3c7;
+	position: absolute;
+	border-radius: 50%;
+	vertical-align: bottom;
+	margin-top:  0.6em;
+	margin-left: -0.45em;
+}
+
+.case_bottomleft .chronological_line.active{ border-left-color: #3498db; }
+.case_bottomleft .chronological_line_point.active::before{ background-color: #3498db; }
+
+.case_bottomleft .chronological_line_label{
+	margin-left: 3.5em;
+	height: 1.6em;
+}
+
+/* Style of case of default page*/
+
+.cases_logo_container {
+	position: relative; /* Useful for position absolute */
+	max-width: 90vmin;
+	margin: auto;
+}
+
+/* Square */
+.cases_logo_container:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+.case {
+	width: 50%;
+	height: 50%;
+	position: absolute;
+}
+
+.case_topleft, .case_bottomleft{
+	text-align: right;
+}
+
+.case h2{
+	margin: 0;
+	font-weight: normal;
+}
+.case p, .case ul{ margin: 0; }
+
+.case {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.case {
+	opacity: 0.8;
+	transform: scale(0.97);
+	transition: opacity 500ms, transform 1s;
+}
+
+.case:hover {
+	opacity: 1;
+	-webkit-transform: scale(1);
+			transform: scale(1);
+}
+
+.case_topleft { top: 0; left: 0; }
+.case_topright { top: 0; right: 0; }
+.case_bottomleft { bottom: 0; left: 0; }
+.case_bottomright { bottom: 0; right: 0; }
+/*
+0.36 â‰ˆ cos(pi/4)*0.5 (0.5 = width logo)
+Porcentage is adapted around 36%
+*/
+.case_content { position: absolute; }
+.case_topleft .case_content{ bottom: 36%; right: 36%; }
+.case_topright .case_content{ bottom: 36%; left: 36%; }
+.case_bottomleft .case_content{ top: 40%; right: 34%; }
+.case_bottomright .case_content{ top: 50%; left: 30%; }
+
+.cases_logo_container .logo_icon {
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	left: 25%;
+	top: 25%;
+}
+
+/* Portfolio */
+.page_folded {
+	transition: margin 0.1s ease-in-out;
+	background-color: var(--page-fold-bg);
+}
+
+.page_folded h3 {
+	padding: 0.5em 1em;
+	margin: 0;
+	transition: all 0.1s ease-in-out;
+	position: relative; /* For h3::after */
+    padding-right: 2.5em; /* For h3::after */
+	line-height: 1.9em; /* For .project_label to be float right */
+}
+
+.page_folded h3::after {content: "";
+    position: absolute;
+    right: 0;
+    border-left: 0.1em solid #ECF0F1;
+    line-height: 1.2em;
+    height: 100%;
+    bottom: 0;
+    color: #BDC3C7;
+    transition: none;
+    width: 2em;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0.9em;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCA3LjMzbDIuODI5LTIuODMgOS4xNzUgOS4zMzkgOS4xNjctOS4zMzkgMi44MjkgMi44My0xMS45OTYgMTIuMTd6IiBmaWxsPSIjQkRDM0M3Ii8+PC9zdmc+");
+}
+
+.page_folded p {
+	padding: 1em;
+	margin: 0;
+}
+
+.page_folded .project_description {
+	display: none;
+}
+
+.project_type_container .checkbox_visible:checked + .page_folded .project_description {
+	display: initial;
+}
+
+.project_type_container .checkbox_visible:checked + .page_folded {
+    margin: 0.7em 0;
+}
+
+.project_type_container .checkbox_visible:checked + .page_folded h3 {
+	background-color: var(--folded-header);
+}
+
+.project_type_container .checkbox_visible:checked + .page_folded h3::after {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAxNi42N2wyLjgyOSAyLjgzIDkuMTc1LTkuMzM5IDkuMTY3IDkuMzM5IDIuODI5LTIuODMtMTEuOTk2LTEyLjE3eiIgZmlsbD0iI0VDRjBGMSIvPjwvc3ZnPg==");
+}
+
+.project_type_container .page_folded {
+    margin: 0;
+	border-bottom: 0.2em solid var(--project-folded);
+}
+
+.project_type_container label:last-child .page_folded { border-bottom: none; }
+
+.project_type_container .checkbox_visible { display: none; }
+
+.project_type_container .project_link { margin-bottom: 1em; display: inline-block; }
+
+.project_type_container .project_label {
+	display: inline-block;
+	background-color: var(--container-label) ;
+	border-radius: 0.3em;
+	float: right;
+	padding: 0.1em 0.4em;
+	margin-left: 0.3em;
+	font-size: 1em;
+	font-weight: 300;
+	line-height: 1.3em;
+	margin-top: 0.2em;
+}
+
+
+/* Conctact page*/
+.contact_list{
+	list-style: none;
+	padding-left: 0.5em;
+	font-size: 1.5em;
+}
+
+.contact_list li{
+	margin: 0.2em 0;
+}
+
+.contact_channel{
+	display: inline-block;
+	margin-top: 0.3em;
+	margin-right: 0.3em;
+	font-weight: bold;
+}
+
+
+.only_mobile {
+	display: none;
+	visibility: hidden;
+}
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+/* Mobile */
+@media screen and (max-width: 640px), screen and (max-height: 600px) {
+	.mobile_hide
+	{
+		display:none;
+	}
+
+	.only_mobile
+	{
+		display: initial;
+		visibility: initial;
+	}
+
+	#header_page
+	{
+		font-size: 1.1em;
+	}
+
+	.width_gen
+	{
+		width: 100%;
+	}
+
+	.case { opacity: 0.9; }
+
+	.cases_logo_container { font-size: 1em; margin-top: 8em; margin-bottom: 8em; }
+
+	.cases_logo_container .case_content { max-width: 95%; }
+
+	.case_topleft .case_content{ bottom: 54%; left: 0; right: auto; }
+	.case_topright .case_content{ bottom: 54%; right: 0; left: auto; }
+	.case_bottomleft .case_content{ top: 54%; left: 0; right: auto; }
+	.case_bottomright .case_content{ top: 54%; right: 0; left: auto; }
+}
+/* Mobile rotated */
+@media screen and (max-height: 600px) {
+	.cases_logo_container {
+		max-width: 100vh;
+	}
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+
+@media print {
+    *,
+    *:before,
+    *:after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="form-panel">
+<h4 class="mb"  style="text-align:center">
+{% if hour != "illimité"%}
+<i class="fa fa-clock-o"></i> Durée :  {% if hour != 0 %} {{ hour }} h {% if minutes != 0 %}{{ minutes }}{% endif %}{% else %}{{ minutes }} min{% endif %}
+{% else %}
+{% if number > 1%}
+{{ number }} exercices
+{% else %}
+{{ number }} exercice
+{% endif %}
+{% endif %}
+</h4>
+<div style="display: flex;justify-content: center;">
+<div style="width:50%">
+<h4 class="mb" style="text-align:center">Chapitres inclus :</h4>
+{% for chapitre in chapitres %}
+{% if chapitre not in seriesChapitres%} 
+<h5 style="text-decoration: line-through;text-align:center">{{ chapitre }}</h5>
+{% else %}
+<h5 style="text-align:center">{{ chapitre }}</h5>
+{% endif %}
+{% endfor %}
+</div>
+<div style="width:50%">
+<h4 class="mb" style="text-align:center">Difficulté des exercices :</h4>
+{% for exercice in exercices %}
+<h5 class="mb" style="text-align:center"><i class="fa fa-angle-right"></i> Exercice {{ forloop.counter }} : {{ exercice.difficulte }}  </h5>
+{% endfor %}
+</div>
+</div>
+<div style="text-align: center;">
+<button class="btn btn-primary" type=button onclick="javascript:location.reload(true)" style=""><i class="fa fa-refresh"></i> Générer une nouvelle série</button>
+</div>
+</div>
+{% for exercice in exercices %}
+ <div class="form-panel">
+                <h4 class="mb" style="text-align:left;float:left;"><i class="fa fa-angle-right"></i> Exercice {{ forloop.counter }}   </h4>
+                 <h4 class="mb" style="text-align:right;float:right;"><i class="fa fa-clock-o"></i> {% tentime exercice.points %} min</h4>
+				
+<hr style="clear:both;visibility:hidden"/>   
+                
+				{% if request.user_agent.is_mobile %}
+				<div style="justify-content: center;">
+						<div style="width:100%;">
+						{% else %}
+						<div style="display: flex;justify-content: center;">
+								<div style="width:50%;padding-right:5px">
+						{% endif %}
+            <div class="project_type_container">
+                <input type="checkbox" id="checkbox_visible_{{ forloop.counter }}" class="checkbox_visible">
+			        <div class="page_folded" style="">
+                        <label for="checkbox_visible_{{ forloop.counter }}" style="display: unset;">
+					        <h3 style="font-size: 16px">
+                                Sujet
+                                {% for chapitre in exercice.chapitres_as_list %}
+                                <div class="project_label">{{ chapitre }}</div>
+                                {% endfor %}
+                                <div class="clearfix"></div>
+                            </h3>
+                        </label>
+                        <div class="project_description">
+
+						{% if request.user_agent.is_mobile %}
+						<iframe class="pdf" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" frameborder="no" width="100%" height="950px" src="/libraries/pdf.js/web/viewer.html?file=https%3A%2F%2Flabolycee.org%2Fsites%2Fdefault%2Ffiles%2F2019-12%2F2019-11-NelleCaledo-Oblig-Sujet.pdf#zoom=page-width" data-src="https://labolycee.org/sites/default/files/2019-12/2019-11-NelleCaledo-Oblig-Sujet.pdf" title="2019-11-NelleCaledo-Oblig-Sujet.pdf" style="height: 4636px;"></iframe>
+								<!--iframe src="https://docs.google.com/viewer?url=http://vkshub.ddns.net/media/{{ exercice.sujet }}&embedded=true" style="width:100%; height:400px;" frameborder="0"></iframe-->					
+						{% else %}
+								<iframe src="/media/{{ exercice.sujet }}" width="100%" height="800px"></iframe>
+						{% endif %}
+				        </div>
+			        </div>
+            </div>
+    </div>
+    {% if request.user_agent.is_mobile %}
+	<div style="width:100%;">
+	{% else %}
+	<div style="width:50%;">
+	{% endif %}
+            <div class="project_type_container">
+                <input type="checkbox" id="checkbox_visible_{{ forloop.counter }}c" class="checkbox_visible">
+			        <div class="page_folded" style="">
+                        <label for="checkbox_visible_{{ forloop.counter }}c" style="display: unset;">
+					        <h3 style="font-size: 16px">
+                                Corrigé
+                                <div class="clearfix"></div>
+                            </h3>
+                        </label>
+                        <div class="project_description">
+					        {% if request.user_agent.is_mobile %}
+								<iframe src="https://docs.google.com/viewer?url=http://vkshub.ddns.net/media/{{ exercice.correction }}&embedded=true" style="width:100%; height:400px;" frameborder="0"></iframe>					
+						{% else %}
+								<iframe src="/media/{{ exercice.correction }}" width="100%" height="800px"></iframe>
+						{% endif %}
+				        </div>
+			        </div>
+            </div>
+    </div>
+    </div>
+                  
+        <!--iframe src="http://docs.google.com/gview?url=http://vkshub.ddns.net/media/uploads/trainingmath/sujets/2017-amerique-du-sud-exo5-enonce.pdf&embedded=true" style="width:80%; height:900px;" frameborder="0"></iframe-->
+           </div>
+            {% endfor %}
+{% endblock %}

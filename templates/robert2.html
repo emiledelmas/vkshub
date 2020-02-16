@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+    <title>Robert 2.0</title>
+
+    <style>
+      @font-face { 
+  font-family: 'Roboto'; 
+  src: url('/static/robert_bus/Roboto.ttf'); 
+  }
+
+@font-face { 
+  font-family: 'AR'; 
+  src: url('/static/robert_bus/Archistico.ttf'); 
+  }
+
+
+.alerte {
+    width:auto;
+    padding:8px;
+    text-align:center;
+    display: inline-block;
+    float:center;
+    margin:0 8px 0 0;
+    border-radius:12px;
+    font-size: 60px;
+    width:100%;
+	height:128px;
+    color:#FFFFFF;
+    font-family:Roboto;
+	background-color:#48D1CC;
+	
+}
+.chan {
+      font-size:60px;
+	  text-align:center;
+	   font-family: 'AR';  
+	  }
+.p{
+	  font-size:30px;
+	  font-style:italic;
+	  font-family:Roboto;
+	  }
+        
+    </style>
+
+    <!-- Inline scripts are forbidden in Firefox OS apps (CSP restrictions),
+         so we us
+e a script file. -->
+    <script>
+const alea=["Cela serait étonnant","Je ne sais pas","non","Il y a des chances","Cela se peut","Évidemment","Cela demande réflexion","Peut-être"," Parfois","Ne comptez pas dessus",
+"Vous pouvez compter dessus","Mes sources me disent que NON","Et puis quoi encore ?","A première vue OUI","Vous pouvez compter dessus","Reposez votre question plus tard","Ma réponse est NON","Je pense que oui","C'est ton destin","Faut pas rêver"," Une chance sur deux"];
+   
+function monalerte() {
+	window.navigator.vibrate ([200, 100]);
+  navigator.vibrate([100]);
+	variable = Math.floor(Math.random()*20);
+    alert(alea[variable]);
+	}
+	
+    </script>
+
+  </head>
+  <body>
+    <!-- This code is in the public domain. Enjoy! -->
+  <h1 class="chan"> Robert 2.0 </h1>
+  
+  <h1 class="p">Fonctionnement : Posez une question à voix haute à laquelle on peut répondre par oui ou par non et appuyez sur Cliquez ici </h1>
+  <FORM>
+<INPUT TYPE="button" VALUE="Cliquez ici" class="alerte" onClick="monalerte()"> </input>
+ </FORM> 
+ </body> 
+
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+   <head>
+       {% load static %}
+       {% load custom_tags %}
+      <meta charset="utf-8">
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title> {{ film.title }}</title>
+      <link rel="apple-touch-icon" href="{% static "vekflix/apple-touch-icon.png" %}">
+      <link rel="stylesheet" href="{% static "vekflix/styles/main.css" %}">
+      <link rel="stylesheet" href="{% static "vekflix/styles/style.css" %}">
+   </head>
+   <body>
+      <nav class="navbar navbar-default">
+         <div class="container-fluid">
+            <div class="navbar-header"><a class="navbar-brand" href="/vekflix">Vekflix</a></div>
+            <form class="navbar-form navbar-right">
+               <div class="inner-addon left-addon"><i class="glyphicon glyphicon-search"></i> <input type="text" class="form-control"></div>
+            </form>
+         </div>
+      </nav>
+      <section class="show">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-6 text-center">
+                   <img src="{{ film.lien }}{% truncatebegin film.mignature.url 14 %}" alt="" style=" width: 500px; height: 280px;-o-object-fit: cover; object-fit: cover;">
+               </div>
+                   <div class="col-sm-6">
+                  <h2>{{ film.title }}</h2>
+                       <button class="btn btn-md btn-full" onclick="window.location.href ='{% if film.youtube_link %}/vekflix/sard/{% else %} {{ film.lien }}{% truncatebegin film.film.url 14 %}{% endif %}'"><i class="glyphicon glyphicon-triangle-right"></i> Lecture</button>
+                  <h3>Ratings</h3>
+                  <p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 123 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 5.6</p>
+                  <h3>Synopsis</h3>
+                  <p>{{ film.description }}</p>
+               </div>
+            </div>
+         </div>
+      </section>
+      {% if film.realisator or film.main_actor %}
+          <section class="others">
+         <div class="container">
+            <div class="row">
+               <h4>casts</h4>
+            </div>
+         <div class="row">
+      {% if film.realisator %}
+               <div class="col-xs-4 col-sm-2">
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                        <div><img src="{% static "vekflix/images/real.png" %}" alt=""></div>
+                        <p> {{ film.realisator }}</p>
+                     </div>
+                  </div>
+               </div>
+   {% endif %}
+            {% if film.main_actor %}
+
+               <div class="col-xs-4 col-sm-2">
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                        <div><img src="{% static "vekflix/images/act.png" %}" alt=""></div>
+                        <p>{{ film.main_actor }}</p>
+                     </div>
+                  </div>
+               </div>
+   {% endif %}
+            </div>
+
+         </div>
+      </section>
+      {% endif %}
+            {% for categorie in categories %}
+      <div class="contain">
+<div class="slider">
+      <h3>{{ categorie|capfirst }}s</h3>
+      <span onmouseover="scrollEsquerda()" onmouseout="clearScroll()" class="handle handlePrev active">
+        <i class="fa fa-caret-left" aria-hidden="true"></i>
+      </span>
+
+      <div id="scroller" class="row">
+        <div class="row__inner">
+{% for movie in movies %}
+    {% if movie.categorie == categorie  %}
+        {% if movie.title != film.title  %}
+         <div class="gui-card">
+         <a href="{{ movie.lien }}" >
+            <div class="gui-card__media">
+              <img class="gui-card__img" src="{{ movie.mignature.url }}" alt="" />
+            </div>
+            <div class="gui-card__details" style="color: white">
+              <div class="gui-card__title" style="color: white">
+                {{ movie.title|capfirst }}
+              </div>
+            </div>
+         </a>
+          </div>
+    {% endif %}
+    {% endif %}
+{% endfor %}
+
+        </div>
+
+      </div>
+      <span onmouseover="scrollDireita()" onmouseout="clearScroll()"  class="handle handleNext active">
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+      </span>
+    </div>
+
+</div>
+{% endfor %}
+       <script src="{% static "vekflix/scripts/vendor.js" %}"></script>
+      <script src="{% static "vekflix/scripts/plugins.js" %}"></script>
+      <script src="{% static "vekflix/scripts/main.js" %}"></script>
+  </body>
+</html>
+

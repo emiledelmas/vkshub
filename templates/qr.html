@@ -1,0 +1,28 @@
+{% extends 'base_new.html' %}
+{% load qr_code %}
+{% block title %}QR code{% endblock %}
+{% block content %}
+ <div class="form-panel">
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Create a QR code</h4>
+              <form class="form-horizontal style-form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Text or URL</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="url" maxlength="200" required="" type="text">
+                  </div>
+                     </div>
+                    <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-primary" type="submit">Generate a QR Code</button>
+                </div>
+                </div>
+              </form>
+              {% if url %}
+               <div class="form-group">
+               {% qr_from_text  url size="m" image_format="png" error_correction="L" %}
+               <p>{{ url }}</p>
+               </div>
+               {% endif %}
+            </div>
+{% endblock %}

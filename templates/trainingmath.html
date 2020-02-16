@@ -1,0 +1,160 @@
+{% extends 'base_new.html' %}
+{% block title %}S'entrainer pour le Baccalauréat de Maths (Bac S){% endblock %}
+{% block head %}
+    <style>
+    /* partie commune */
+input[type=range].custom-slider {
+  -webkit-appearance: none;     /*nécessaire pour Chrome */
+  padding: 0;                   /* nécessaire pour IE */
+  font: inherit;                /* même rendu suivant font document */
+  outline: none;
+  color: #069;                  /* sert pour couleur de référence, via currentColor, pour le curseur */
+  opacity: .8;         /* sert pour couleur de fond de la zone de déplacement */
+  box-sizing: border-box;       /* même modèle de boîte pour tous */
+  transition: opacity .2s;
+  cursor: pointer;
+}
+    </style>
+    {% endblock %}
+{% block content %}
+        {% load static %}
+    <div class="col-lg-12">
+         <div class="alert alert-info" style="font-size:13px">
+          Parmis les {{ total }} exercices proposés par le générateur ceux de 2016 et 2017 proviennent de
+         <strong>
+         <a href="https://www.maths-france.fr/"> MATHS-FRANCE
+         <i class="fa fa-external-link"></i>
+         </a>
+         </strong>
+         et 
+         ceux de 2019 ont été manuellement récupéré et mis en forme avec <strong><a href="https://www.latex-project.org/"> Latex
+         <i class="fa fa-external-link"></i>
+         </a></strong> à partir de l'<strong> <a href="https://www.apmep.fr/"> APMEP
+         <i class="fa fa-external-link"></i>
+         </a></strong>
+         
+    </div>
+            <div class="form-panel">
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Générer une série d'exercices (type bac)</h4>
+              <form class="form-horizontal style-form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <div class="form-group">
+                 <label class="col-sm-2 col-sm-2 control-label">Type de série</label>
+                   <div class="col-sm-10">
+                      <select class="select-type" name="type" id="type" onchange="changebar();">
+                      <option value="time">Série pour un intervalle de temps</option>
+                      <option value="number">Série pour un nombre d'exercices</option>
+                      </select>
+                  </div>
+                  </div>
+                  <div class="form-group" id="timebar">
+                  <label class="col-sm-2 col-sm-2 control-label">Durée maximum de la série</label>
+                   <div class="col-sm-10 firstbar">
+                    <input class="custom-slider" name="time" type="range"  min="30" max="240" value="{{ number }}" step="10">
+                  <div class="value">{{ number }} min</div>
+                    <!--input type="color" name="color"  value="#00ff00"-->
+                  </div>
+                     </div>
+                     <div class="form-group" id="numberbar" style="display:none">
+                  <label class="col-sm-2 col-sm-2 control-label">Nombre d'exercices</label>
+                   <div class="col-sm-10 secondbar">
+                    <input class="custom-slider" name="number" type="range"  min="1" max="20" value="5" step="1">
+                    <div class="value2">5</div>
+                    <!--input type="color" name="color"  value="#00ff00"-->
+                  </div>
+                     </div>
+                <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">Chapitres</label>
+                   <div class="col-sm-10">
+                   {% for chapitre in chapitres %}
+                <!-- Default unchecked -->
+<div class="custom-control custom-checkbox">
+    <input type="checkbox" name="{{ chapitre }}" class="custom-control-input" id="{{ chapitre }}">
+    <label class="custom-control-label" for="{{ chapitre }}">{{ chapitre }}</label>
+    </div>
+{% endfor %}
+</div>
+</div>
+
+                    <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-primary" type="submit">Commencer</button>
+                </div>
+                </div>
+              </form>
+            </div>
+          </div>
+<script>
+let elem = document.querySelector('div.firstbar input[type="range"]');
+let newValue = elem.value;
+  let target = document.querySelector('.value');
+  let result;
+  if (newValue>=60)
+  {
+      let hour = Math.floor(newValue/60);
+      let min = newValue - hour * 60;
+      if (min!=0)
+        result = hour + " h " + min;
+       else
+        result = hour + " h ";
+  }
+  else
+  {
+      result = newValue + ' min'
+  }
+  target.innerHTML = result;
+let rangeValue = function(){
+  let newValue = elem.value;
+  let target = document.querySelector('.value');
+  let result;
+  if (newValue>=60)
+  {
+      let hour = Math.floor(newValue/60);
+      let min = newValue - hour * 60;
+      if (min!=0)
+        result = hour + " h " + min;
+       else
+        result = hour + " h ";
+  }
+  else
+  {
+      result = newValue + ' min'
+  }
+  target.innerHTML = result;
+}
+
+elem.addEventListener("input", rangeValue);
+
+let elem2 = document.querySelector('div.secondbar input[type="range"]');
+let newValue2 = elem2.value;
+let target2 = document.querySelector('.value2');
+target2.innerHTML = newValue2;
+
+
+let rangeValue2 = function(){
+  let newValue2 = elem2.value;
+  target2.innerHTML = newValue2;
+}
+
+elem2.addEventListener("input", rangeValue2);
+
+
+
+
+ function changebar() {
+       let type = document.getElementById("type").value;
+       if (type=="number")
+      {
+        document.getElementById("timebar").style.display = "none";
+        document.getElementById("numberbar").style.display = "";  
+        
+      }
+      else
+      {
+        document.getElementById("timebar").style.display = ""; 
+        document.getElementById("numberbar").style.display = "none"; 
+      }
+     }
+</script>
+
+{% endblock %}

@@ -1,0 +1,3 @@
+Pour acceder et tester tous les exercices --> ouvrir "index.html"
+
+Pour accéder aux codes de chaque exercice --> Dans 'Scripts/'

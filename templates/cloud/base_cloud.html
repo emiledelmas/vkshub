@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+    {% load static %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Veksor Hub</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="The official Veksor Hub" />
+	<meta name="keywords" content="Veksor Hub Cloud portfolio" />
+	<meta name="author" content="Emile Delmas" />
+
+  {# Facebook and Twitter integration #}
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+    <link rel="stylesheet" href="{% static "main_hub/old/pe-icon-7-stroke/css/pe-icon-7-stroke.css" %}">
+
+{# Optional - Adds useful class to manipulate icon font display #}
+    <link rel="stylesheet" href="{% static "main_hub/old/pe-icon-7-stroke/css/helper.css" %}">
+	{# Place favicon.ico and apple-touch-icon.png in the root directory #}
+     <link rel="icon" href="{% static "main_hub/old/../../main_hub/static/main_hub/img/favicon.ico" %}" />
+
+	<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+
+	{# Animate.css #}
+	<link rel="stylesheet" href="{% static "main_hub/old/css/animate.css" %}">
+	{# Icomoon Icon Fonts#}
+	<link rel="stylesheet" href="{% static "main_hub/old/css/icomoon.css" %}">
+	{# Bootstrap  #}
+	<link rel="stylesheet" href="{% static "main_hub/old/css/bootstrap.css" %}">
+	{# Flexslider  #}
+	<link rel="stylesheet" href="{% static "main_hub/old/css/flexslider.css" %}">
+	{# Owl Carousel #}
+	<link rel="stylesheet" href="{% static "main_hub/old/css/owl.carousel.min.css" %}">
+	<link rel="stylesheet" href="{% static "main_hub/old/css/owl.theme.default.min.css" %}">
+
+	<link rel="stylesheet" href="{% static "main_hub/old/css/style.css" %}">
+
+
+	{# Modernizr JS #}
+	<script src="{% static "main_hub/old/js/modernizr-2.6.2.min.js" %}"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+        		<style>
+
+.dropzone {
+    background: white;
+    border-radius: 5px;
+    border: 2px dashed rgb(0, 135, 247);
+    border-image: none;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+		</style>
+	</head>
+	<body onload="typeWriter();typeWriter1()">
+    <p id="demo" style="margin-bottom: 0em;"></p>
+    {# $ root startapp veksor_hub.py #}
+	<nav id="colorlib-main-nav" role="navigation">
+		<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
+		<div class="js-fullheight colorlib-table">
+			<div class="colorlib-table-cell js-fullheight">
+				<ul>
+					{% for el in barre %}
+					<li><a href="{{ el.url }}">{{ el.title }}</a></li>
+                    {% endfor %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	{% block content%}
+	{% endblock %}
+
+		<div id="colorlib-hire">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1 col-md-pull-1 animate-box">
+						<h2 class="heading">Besoin d'aide pour un projet?</h2>
+						<p><a href="/contact" class="btn btn-primary btn-lg">Me contacter</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+			<div id="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 col-pb-sm">
+							<div class="row">
+								<div class="col-md-10">
+									<h2>Veksor Hub</h2>
+									<p>Un site-web repertoriant tout mes projets!</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-pb-sm">
+							<h2 class="text-center">Github</h2>
+							<p class="text-center">Ma page Github repertorie tout les codes sources de mes projets</p>
+                              <div class="text-center">
+                                    <span onclick="window.open('https://github.com/emiledelmas', '_blank');" class="icon" style="color:#fff;font-size: 100px"><i class="icon-github"></i></span>
+                                </div>
+							<div class="subscribe text-center">
+							</div>
+						</div>
+						<div class="col-md-4 col-pb-sm right-display">
+							<h2>Sur les réseaux</h2>
+							<p class="colorlib-social-icons colorlib-social-icons2">
+								<a href="https://twitter.com/veksor_"><i class="icon-twitter3"></i></a>
+								<a href="mailto:emile.delmas@yahoo.fr"><i class="icon-dribbble2"></i></a>
+							</p>
+							<p>
+								<span class="block">
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved<br></span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+
+<script>
+var i = 0;
+var txt = 'Site en cours de construction...';
+var speed = 50;
+
+function typeWriter() {
+  if (i < txt.length) {
+    document.getElementById("demo").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+let j = 0;
+let txt1 = 'Bienvenue au Veksor Hub';
+let speed1= 80;
+
+function typeWriter1() {
+  if (j < txt1.length) {
+    document.getElementById("demo1").innerHTML += txt1.charAt(j);
+    j++;
+    setTimeout(typeWriter1, speed1);
+  }
+}
+</script>
+	{# jQuery #}
+	<script src="{% static "main_hub/old/js/jquery.min.js" %}"></script>
+	{# jQuery Easing #}
+	<script src="{% static "main_hub/old/js/jquery.easing.1.3.js" %}"></script>
+	{# Bootstrap #}
+	<script src="{% static "main_hub/old/js/bootstrap.min.js" %}"></script>
+	{# Waypoints #}
+	<script src="{% static "main_hub/old/js/jquery.waypoints.min.js" %}"></script>
+	{# Flexslider #}
+	<script src="{% static "main_hub/old/js/jquery.flexslider-min.js" %}"></script>
+	{# Counters #}
+	<script src="{% static "main_hub/old/js/jquery.countTo.js" %}"></script>
+	{# Owl Carousel #}
+	<script src="{% static "main_hub/old/js/owl.carousel.min.js" %}"></script>
+
+	{# Main JS (Do not remove) #}
+	<script src="{% static "main_hub/old/js/main.js" %}"></script>
+{% load sweetify %}
+{% sweetify %}
+	</body>
+</html>
+
