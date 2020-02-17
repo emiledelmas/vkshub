@@ -33,14 +33,12 @@ import requests
 from url_decode import urldecode
 import math
 import random,string
-from tmdbv3api import TMDb, Movie
 import urllib
 import os
 import requests
 from cryptosteganography import CryptoSteganography
 from PIL import Image
 import cv2
-from deeplator import Translator
 from thispersondoesnotexist import get_online_person, get_checksum_from_picture, Person,save_picture
 
 
