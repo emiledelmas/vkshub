@@ -69,7 +69,7 @@ Most of the pages are created based on this template (free with personal use):
 
 ## Test it !
 
-You can test the website in this URL : [VKSHUB](https://vkshub.ddns.net)
+You can test the website in this URL : [VKSHUB](http://vkshub.ddns.net)
 
 ## Built mostly With
 
