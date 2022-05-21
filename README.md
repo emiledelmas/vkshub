@@ -11,8 +11,6 @@ To make this site up you need to install some libraries which are essential to t
 ### Prerequisites
 
 You need to install Pip3 to install these libraries : 
-
-In Windows :
 ```
 pip install filetype
 pip install sweetify
@@ -27,37 +25,23 @@ pip install Pillow
 pip install thispersondoesnotexist
 pip install opencv-python
 ```
-In Linux :
-```
-$ pip3 install filetype
-$ pip3 install sweetify
-$ pip3 install psutil
-$ pip3 install tracking
-$ pip3 install ipinfo
-$ pip3 install ffmpeg
-$ pip3 install django_waitress
-$ pip3 install django_user_agents
-$ pip3 install Pillow
-$ pip3 install thispersondoesnotexist
-$ pip3 install opencv-python
-```
 
 ## What pages/features are inside it
 
 Pages : 
-* [Home](http://vkshub.ddns.net) - page that include a dynamic graph and a counter of days before holidays (using the library vacances_scolaires_france)
-* [Projects](http://vkshub.ddns.net/projects) - page that includes a foldable list of projects that I made or I am involved in...
-* [Cloud](http://vkshub.ddns.net/cloud) - a personal cloud with detection of the type of files (using the library file type and if statement). 
-* [Cloud-Upload](http://vkshub.ddns.net/upload) - A webpage to upload file to the cloud. Safe and easy to debug using the Django csrf token and form)
-* [URL shortener](http://vkshub.ddns.net/short) - A simple URL shortener using database and models in Django.
-* [Vekflix](http://vkshub.ddns.net/vekflix) - a netflix parody
-* [Youtube Downloader](http://vkshub.ddns.net/ytb) - a tool to download youtube videos using pytube library
-* [Steganography](http://vkshub.ddns.net/steganography) - a tool to hide text inside a photos using a cryptostegano and a personal script that I keep private
-* [Face Recognition](http://vkshub.ddns.net/face_recognition) - a tool to find faces in a png/jpg using cv2 and haarscade library
-* [Face Generation](http://vkshub.ddns.net/thispersondoesnotexist) - a tool to generate faces of person that doesn't exist (based on thispersondoesnotexist library)
-* [Algorithm of math training optimisation](http://vkshub.ddns.net/bac_maths) - a tool to help people train maths in a limited time or in some domains 
-* [Robert Bus](http://vkshub.ddns.net/bus) - a tool to get a bus schedule using an API
-* [Robert 2.0](http://vkshub.ddns.net/robert) - a random sentences generator using js
+* [Home](http://vkshub.tretis.fr) - page that include a dynamic graph and a counter of days before holidays (using the library vacances_scolaires_france)
+* [Projects](http://vkshub.tretis.fr/projects) - page that includes a foldable list of projects that I made or I am involved in...
+* [Cloud](http://vkshub.tretis.fr/cloud) - a personal cloud with detection of the type of files (using the library file type and if statement). 
+* [Cloud-Upload](http://vkshub.tretis.fr/upload) - A webpage to upload file to the cloud. Safe and easy to debug using the Django csrf token and form)
+* [URL shortener](http://vkshub.tretis.fr/short) - A simple URL shortener using database and models in Django.
+* [Vekflix](http://vkshub.tretis.fr/vekflix) - a netflix parody
+* [Youtube Downloader](http://vkshub.tretis.fr/ytb) - (Fix soon?) a tool to download youtube videos using pytube library
+* [Steganography](http://vkshub.tretis.fr/steganography) - a tool to hide text inside a photos using a cryptostegano and a personal script that I keep private
+* [Face Recognition](http://vkshub.tretis.fr/face_recognition) - a tool to find faces in a png/jpg using cv2 and haarscade library
+* [Face Generation](http://vkshub.tretis.fr/thispersondoesnotexist) - a tool to generate faces of person that doesn't exist (based on thispersondoesnotexist library)
+* [Algorithm of math training optimisation](http://vkshub.tretis.fr/bac_maths) - a tool to help people train maths in a limited time or in some domains 
+* [Robert Bus](http://vkshub.tretis.fr/bus) - a tool to get a bus schedule using an API
+* [Robert 2.0](http://vkshub.tretis.fr/robert) - a random sentences generator using js
 
 
 
