@@ -1,6 +1,6 @@
 # VKS hub
 
-This is the official repository of vkshub.ddns.net.
+This is the official repository of vkshub.tretis.fr.
 The website backend is entirely made using the Python framework Django.
 The website front is made using html,css and js with bootstrap.
 
